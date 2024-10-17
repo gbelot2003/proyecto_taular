@@ -2,6 +2,7 @@ from flask import render_template, redirect, session, url_for, flash, request
 from app import db
 from app.forms.grado_form import GradoForm
 from app.models.grado_model import Grado
+from app.models.clase_model import Clase
 
 
 def configurar_grados(app):
@@ -37,6 +38,9 @@ def configurar_grados(app):
             flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
             return redirect(url_for('login'))
         grado = Grado.query.get_or_404(id)
+        
+        # Obtener las clases relacionadas con el grado
+        clases = Clase.query.filter_by(grado_id=grado.id).all()
         form = GradoForm(obj=grado)
         
         if form.validate_on_submit():
@@ -45,7 +49,7 @@ def configurar_grados(app):
             flash('Grado actualizado correctamente.', 'success')
             return redirect(url_for('listar_grados'))
         
-        return render_template('grados/editar.html', form=form, grado=grado)
+        return render_template('grados/editar.html', form=form, grado=grado, clases=clases)
 
     # Ruta para eliminar un grado
     @app.route('/grados/eliminar/<int:id>', methods=['POST'])
