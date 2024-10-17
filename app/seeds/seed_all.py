@@ -10,6 +10,8 @@ from app import create_app, db
 from app.seeds.user_seed import seed_data as seed_users
 from app.seeds.grado_seed import seed_grados
 from app.seeds.clase_seed import seed_clases
+from app.seeds.alumno_seed import seed_alumnos
+
 
 def seed_all():
     app = create_app()  # Crear la aplicación Flask
@@ -27,6 +29,9 @@ def seed_all():
 
         print("Seeding clases...")
         seed_clases()
+
+        print("Seeding alumnos...")
+        seed_alumnos()
 
         print("Seeding completado para todas las tablas.")
 
