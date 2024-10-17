@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Grado - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Crear Grado</h2>
+    <form method="POST" action="{{ url_for('crear_grado') }}">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            {{ form.nombre.label(class="form-label") }}
+            {{ form.nombre(class="form-control") }}
+        </div>
+
+        <div class="d-grid gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

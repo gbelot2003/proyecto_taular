@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Grado - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Editar Grado</h2>
+    <form method="POST" action="{{ url_for('editar_grado', id=grado.id) }}">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            {{ form.nombre.label(class="form-label") }}
+            {{ form.nombre(class="form-control") }}
+        </div>
+
+        <div class="d-grid gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

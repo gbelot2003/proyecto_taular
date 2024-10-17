@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Grados - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Grados</h2>
+    <a href="{{ url_for('crear_grado') }}" class="btn btn-primary mb-3">Crear nuevo grado</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grado in grados %}
+            <tr>
+                <td>{{ grado.id }}</td>
+                <td>{{ grado.nombre }}</td>
+                <td>
+                    <a href="{{ url_for('editar_grado', id=grado.id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('eliminar_grado', id=grado.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este grado?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
