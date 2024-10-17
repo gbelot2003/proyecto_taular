@@ -1,13 +1,16 @@
 # Archivo: app/routes/api_router.py
-from flask import Flask, jsonify, request
+from flask import Flask, current_app, jsonify, request
 from app.models.alumno_model import Alumno
 from app.models.tarea_model import Tarea
 from app.models.prueba_model import Prueba
 from app.models.examen_model import Examen
 from app.models.parcial_model import Parcial
+from config import Config  # Asegúrate de importar tu configuración
+
 from app import db
 
 def configurar_api(app):
+    app.config.from_object(Config)  # Cargar la configuración desde Config
 
     # Función para convertir el objeto Alumno a un diccionario
     def alumno_to_dict(alumno):
@@ -50,8 +53,14 @@ def configurar_api(app):
 
     @app.route('/api/alumno', methods=['GET'])
     def buscar_alumno():
+        # Obtener el token enviado en la solicitud (puede ser en el encabezado o en los parámetros)
+        token = request.args.get('token')  # O también se puede usar: request.headers.get('Authorization')
         nombre = request.args.get('nombre')
         email = request.args.get('email')
+
+        # Verificar si el token es válido
+        if token != current_app.config['SECRET_API_TOKEN']:
+            return jsonify({"error": "Token de seguridad no válido."}), 403
 
         # Verificar si se envió un nombre o un email
         if not nombre and not email:

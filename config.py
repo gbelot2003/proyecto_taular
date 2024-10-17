@@ -1,3 +1,4 @@
+# Archivo: config.py
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -10,6 +11,7 @@ class Config:
 class DevelopmentConfig(Config):
     # Configuración específica para el entorno de desarrollo
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'instance/dev.db')
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     DEBUG = True
 
 class TestingConfig(Config):
