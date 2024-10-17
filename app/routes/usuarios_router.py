@@ -3,8 +3,6 @@ from app.forms.user_forms import UserForm
 from app import db
 from app.models.user_model import User
 
-
-
 def configurar_usuarios(app):
     # Ruta para listar usuarios
     @app.route('/usuarios', methods=['GET'])

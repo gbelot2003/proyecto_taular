@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Clases - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Clases</h2>
+    <a href="{{ url_for('crear_clase') }}" class="btn btn-primary mb-3">Crear nueva clase</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Grado</th>
+                <th>Maestro</th>
+                <th>Horario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for clase in clases %}
+            <tr>
+                <td>{{ clase.id }}</td>
+                <td>{{ clase.nombre }}</td>
+                <td>{{ clase.grado.nombre }}</td>
+                <td>{{ clase.maestro.username }}</td>
+                <td>{{ clase.horario_inicio }} - {{ clase.horario_fin }}</td>
+                <td>
+                    <a href="{{ url_for('editar_clase', id=clase.id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('eliminar_clase', id=clase.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta clase?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
