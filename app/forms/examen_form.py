@@ -11,7 +11,7 @@ class ExamenForm(FlaskForm):
     parcial = SelectField('Parcial', coerce=int, validators=[DataRequired()])
     alumno = SelectField('Alumno', coerce=int, validators=[DataRequired()])
     puntaje_maximo = FloatField('Puntaje Máximo', validators=[DataRequired(), NumberRange(min=0, max=100)])
-    puntaje_obtenido = FloatField('Puntaje Obtenido', validators=[NumberRange(min=0, max=100)])
+    puntaje_obtenido = FloatField('Puntaje Obtenido', validators=[NumberRange(min=0, max=100)], default=None)
     submit = SubmitField('Guardar')
 
     def __init__(self, *args, **kwargs):

@@ -29,7 +29,7 @@ def configurar_examen(app):
                 parcial_id=form.parcial.data, 
                 alumno_id=form.alumno.data, 
                 puntaje_maximo=form.puntaje_maximo.data,
-                puntaje_obtenido=form.puntaje_obtenido.data
+                puntaje_obtenido=form.puntaje_obtenido.data if form.puntaje_obtenido.data is not None else None
             )
             db.session.add(nuevo_examen)
             db.session.commit()
