@@ -3,6 +3,10 @@ from flask import render_template, redirect, session, url_for, flash, request
 from app import db
 from app.forms.alumno_form import AlumnoForm
 from app.models.alumno_model import Alumno
+from app.models.tarea_model import Tarea
+from app.models.prueba_model import Prueba
+from app.models.examen_model import Examen
+from app.models.parcial_model import Parcial
 
 def configurar_alumnos(app):
     # Ruta para listar alumnos
@@ -37,7 +41,14 @@ def configurar_alumnos(app):
             return redirect(url_for('login'))
         alumno = Alumno.query.get_or_404(id)
         form = AlumnoForm(obj=alumno)
-        
+    
+        # Obtener las tareas, pruebas y exámenes del alumno, agrupados por parcial
+        tareas = Tarea.query.filter_by(alumno_id=alumno.id).all()
+        pruebas = Prueba.query.filter_by(alumno_id=alumno.id).all()
+        examenes = Examen.query.filter_by(alumno_id=alumno.id).all()
+        # Siempre obtener los parciales, sin importar si el formulario es enviado o no
+        parciales = Parcial.query.all()
+       
         if form.validate_on_submit():
             alumno.nombre = form.nombre.data
             alumno.apellido = form.apellido.data
@@ -47,7 +58,7 @@ def configurar_alumnos(app):
             flash('Alumno actualizado correctamente.', 'success')
             return redirect(url_for('listar_alumnos'))
         
-        return render_template('alumnos/editar.html', form=form, alumno=alumno)
+        return render_template('alumnos/editar.html', form=form, alumno=alumno, tareas=tareas, pruebas=pruebas, examenes=examenes, parciales=parciales)
 
     # Ruta para eliminar un alumno
     @app.route('/alumnos/eliminar/<int:id>', methods=['POST'])

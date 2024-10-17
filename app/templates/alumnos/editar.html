@@ -4,33 +4,130 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Editar Alumno</h2>
-    <form method="POST" action="{{ url_for('editar_alumno', id=alumno.id) }}">
-        {{ form.hidden_tag() }}
+    <h2>Editar Alumno: {{ alumno.nombre }} {{ alumno.apellido }}</h2>
 
-        <div class="mb-3">
-            {{ form.nombre.label(class="form-label") }}
-            {{ form.nombre(class="form-control") }}
+    <!-- Bootstrap Tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="form-tab" data-bs-toggle="tab" data-bs-target="#form" type="button" role="tab" aria-controls="form" aria-selected="true">Editar Información</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tareas-tab" data-bs-toggle="tab" data-bs-target="#tareas" type="button" role="tab" aria-controls="tareas" aria-selected="false">Tareas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pruebas-tab" data-bs-toggle="tab" data-bs-target="#pruebas" type="button" role="tab" aria-controls="pruebas" aria-selected="false">Pruebas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="examenes-tab" data-bs-toggle="tab" data-bs-target="#examenes" type="button" role="tab" aria-controls="examenes" aria-selected="false">Exámenes</button>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="myTabContent">
+        <!-- Formulario Tab -->
+        <div class="tab-pane fade show active" id="form" role="tabpanel" aria-labelledby="form-tab">
+            <form method="POST" action="{{ url_for('editar_alumno', id=alumno.id) }}">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.nombre.label(class="form-label") }}
+                    {{ form.nombre(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.apellido.label(class="form-label") }}
+                    {{ form.apellido(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.grado.label(class="form-label") }}
+                    {{ form.grado(class="form-control") }}
+                </div>
+
+                <div class="d-grid gap-2">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
 
-        <div class="mb-3">
-            {{ form.apellido.label(class="form-label") }}
-            {{ form.apellido(class="form-control") }}
+        <!-- Tareas Tab -->
+        <div class="tab-pane fade" id="tareas" role="tabpanel" aria-labelledby="tareas-tab">
+            {% for parcial in parciales %}
+                <h4>Parcial {{ parcial.numero }} - {{ parcial.clase.nombre }}</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Puntaje Máximo</th>
+                            <th>Puntaje Obtenido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tarea in tareas if tarea.parcial_id == parcial.id %}
+                        <tr>
+                            <td>{{ tarea.descripcion }}</td>
+                            <td>{{ tarea.puntaje_maximo }}</td>
+                            <td>{{ tarea.puntaje_obtenido }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
         </div>
 
-        <div class="mb-3">
-            {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control") }}
+        <!-- Pruebas Tab -->
+        <div class="tab-pane fade" id="pruebas" role="tabpanel" aria-labelledby="pruebas-tab">
+            {% for parcial in parciales %}
+                <h4>Parcial {{ parcial.numero }} - {{ parcial.clase.nombre }}</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Puntaje Máximo</th>
+                            <th>Puntaje Obtenido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prueba in pruebas if prueba.parcial_id == parcial.id %}
+                        <tr>
+                            <td>{{ prueba.descripcion }}</td>
+                            <td>{{ prueba.puntaje_maximo }}</td>
+                            <td>{{ prueba.puntaje_obtenido }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
         </div>
 
-        <div class="mb-3">
-            {{ form.grado.label(class="form-label") }}
-            {{ form.grado(class="form-control") }}
+        <!-- Exámenes Tab -->
+        <div class="tab-pane fade" id="examenes" role="tabpanel" aria-labelledby="examenes-tab">
+            {% for parcial in parciales %}
+                <h4>Parcial {{ parcial.numero }} - {{ parcial.clase.nombre }}</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Puntaje Máximo</th>
+                            <th>Puntaje Obtenido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for examen in examenes if examen.parcial_id == parcial.id %}
+                        <tr>
+                            <td>{{ examen.descripcion }}</td>
+                            <td>{{ examen.puntaje_maximo }}</td>
+                            <td>{{ examen.puntaje_obtenido }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
         </div>
-
-        <div class="d-grid gap-2">
-            {{ form.submit(class="btn btn-primary") }}
-        </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

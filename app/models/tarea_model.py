@@ -19,6 +19,9 @@ class Tarea(db.Model):
 
     # Puntaje obtenido por el alumno
     puntaje_obtenido = db.Column(db.Float, nullable=True)
+    # Relación con Parcial
+    parcial_id = db.Column(db.Integer, db.ForeignKey('parciales.id'), nullable=False)
+    parcial = db.relationship('Parcial', backref='tareas')
 
     def __repr__(self):
         return f'<Tarea {self.descripcion} para el Alumno {self.alumno.nombre}>'
