@@ -37,5 +37,31 @@
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
+    <div class="container mt-5">
+        <h2>Editar Clase: {{ clase.nombre }}</h2>
+    
+        <!-- Aquí va el formulario para editar la clase -->
+    
+        <h3>Lista de Alumnos en {{ clase.nombre }}</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre del Alumno</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in alumnos %}
+                <tr>
+                    <td>{{ alumno.nombre }} {{ alumno.apellido }}</td>
+                    <td>
+                        <!-- Enlace a la página de edición del alumno -->
+                        <a href="{{ url_for('editar_alumno', id=alumno.id) }}" class="btn btn-warning">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

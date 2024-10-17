@@ -1,6 +1,7 @@
 from flask import render_template, redirect, session, url_for, flash, request
 from app import db
 from app.forms.clases_form import ClaseForm
+from app.models.alumno_model import Alumno
 from app.models.clase_model import Clase
 
 def configurar_clases(app):
@@ -20,6 +21,7 @@ def configurar_clases(app):
             flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
             return redirect(url_for('login'))
         form = ClaseForm()
+        
         if form.validate_on_submit():
             nueva_clase = Clase(
                 nombre=form.nombre.data, 
@@ -42,7 +44,10 @@ def configurar_clases(app):
             return redirect(url_for('login'))
         clase = Clase.query.get_or_404(id)
         form = ClaseForm(obj=clase)
-        
+        # Obtener los alumnos asociados con la clase
+        # Aquí asumimos que los alumnos están relacionados con la clase a través del grado
+        alumnos = Alumno.query.filter_by(grado_id=clase.grado_id).all()
+
         if form.validate_on_submit():
             clase.nombre = form.nombre.data
             clase.grado_id = form.grado.data
@@ -53,7 +58,7 @@ def configurar_clases(app):
             flash('Clase actualizada correctamente.', 'success')
             return redirect(url_for('listar_clases'))
         
-        return render_template('clases/editar.html', form=form, clase=clase)
+        return render_template('clases/editar.html', form=form, clase=clase, alumnos=alumnos)
 
     # Ruta para eliminar una clase
     @app.route('/clases/eliminar/<int:id>', methods=['POST'])
