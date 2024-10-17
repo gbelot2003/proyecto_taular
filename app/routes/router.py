@@ -39,6 +39,15 @@ def configure_routes(app):    # Ruta para el home
             return redirect(url_for('login'))
         return render_template('dashboard.html')
 
+
+    @app.route('/logout')
+    def logout():
+        # Eliminar la sesión del usuario
+        session.pop('user', None)
+        flash('Has cerrado sesión correctamente.', 'success')
+        return redirect(url_for('index'))
+    
+    
     configurar_usuarios(app)
     configurar_alumnos(app)
     configurar_clases(app)
