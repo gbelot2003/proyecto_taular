@@ -11,7 +11,7 @@ from app.seeds.user_seed import seed_data as seed_users
 from app.seeds.grado_seed import seed_grados
 from app.seeds.clase_seed import seed_clases
 from app.seeds.alumno_seed import seed_alumnos
-
+from app.seeds.parcial_seed import seed_parciales
 
 def seed_all():
     app = create_app()  # Crear la aplicación Flask
@@ -32,6 +32,9 @@ def seed_all():
 
         print("Seeding alumnos...")
         seed_alumnos()
+
+        print("Seeding parciales...")
+        seed_parciales()
 
         print("Seeding completado para todas las tablas.")
 
