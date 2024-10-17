@@ -7,6 +7,7 @@ from app.routes.pruebas_router import configurar_prueba
 from app.routes.tareas_router import configurar_tareas
 from app.routes.usuarios_router import configurar_usuarios 
 from app.routes.alumnos_router import configurar_alumnos
+from app.routes.api_router import configurar_api
 
 def configure_routes(app):    # Ruta para el home
     @app.route("/")
@@ -55,3 +56,4 @@ def configure_routes(app):    # Ruta para el home
     configurar_tareas(app)
     configurar_prueba(app)
     configurar_examen(app)
+    configurar_api(app)
