@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, session
 from app.forms.login_forms import LoginForm
 from app.routes.usuarios_router import configurar_usuarios 
-
+from app.routes.alumnos_router import configurar_alumnos
 
 def configure_routes(app):    # Ruta para el home
     @app.route("/")
@@ -35,3 +35,4 @@ def configure_routes(app):    # Ruta para el home
         return render_template('dashboard.html')
 
     configurar_usuarios(app)
+    configurar_alumnos(app)

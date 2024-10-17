@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Alumno - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Crear Alumno</h2>
+    <form method="POST" action="{{ url_for('crear_alumno') }}">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            {{ form.nombre.label(class="form-label") }}
+            {{ form.nombre(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.apellido.label(class="form-label") }}
+            {{ form.apellido(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.grado.label(class="form-label") }}
+            {{ form.grado(class="form-control") }}
+        </div>
+
+        <div class="d-grid gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
