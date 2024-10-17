@@ -5,3 +5,5 @@ Flask-Script
 Flask-WTF
 email_validator
 Flask-JWT-Extended
+openai 
+python-dotenv
