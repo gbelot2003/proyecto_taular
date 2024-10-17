@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, session, url_for, flash, request
 from app import db
 from app.forms.grado_form import GradoForm
 from app.models.grado_model import Grado
@@ -9,12 +9,18 @@ def configurar_grados(app):
     # Ruta para listar grados
     @app.route('/grados', methods=['GET'])
     def listar_grados():
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         grados = Grado.query.all()
         return render_template('grados/listar.html', grados=grados)
 
     # Ruta para crear un nuevo grado
     @app.route('/grados/crear', methods=['GET', 'POST'])
     def crear_grado():
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         form = GradoForm()
         if form.validate_on_submit():
             nuevo_grado = Grado(nombre=form.nombre.data)
@@ -27,6 +33,9 @@ def configurar_grados(app):
     # Ruta para editar un grado existente
     @app.route('/grados/editar/<int:id>', methods=['GET', 'POST'])
     def editar_grado(id):
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         grado = Grado.query.get_or_404(id)
         form = GradoForm(obj=grado)
         
@@ -41,6 +50,9 @@ def configurar_grados(app):
     # Ruta para eliminar un grado
     @app.route('/grados/eliminar/<int:id>', methods=['POST'])
     def eliminar_grado(id):
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         grado = Grado.query.get_or_404(id)
         db.session.delete(grado)
         db.session.commit()

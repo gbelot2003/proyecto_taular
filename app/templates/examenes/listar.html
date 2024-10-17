@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Exámenes - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Exámenes</h2>
+    <a href="{{ url_for('crear_examen') }}" class="btn btn-primary mb-3">Crear nuevo examen</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Parcial</th>
+                <th>Alumno</th>
+                <th>Puntaje Máximo</th>
+                <th>Puntaje Obtenido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for examen in examenes %}
+            <tr>
+                <td>{{ examen.id }}</td>
+                <td>{{ examen.descripcion }}</td>
+                <td>{{ examen.parcial.numero }} - {{ examen.parcial.clase.nombre }}</td>
+                <td>{{ examen.alumno.nombre }} {{ examen.alumno.apellido }}</td>
+                <td>{{ examen.puntaje_maximo }}</td>
+                <td>{{ examen.puntaje_obtenido }}</td>
+                <td>
+                    <a href="{{ url_for('editar_examen', id=examen.id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('eliminar_examen', id=examen.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este examen?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

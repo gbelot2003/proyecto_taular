@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, session, url_for, flash, request
 from app import db
 from app.forms.tareas_form import TareaForm
 from app.models.tarea_model import Tarea
@@ -7,12 +7,18 @@ def configurar_tareas(app):
     # Ruta para listar tareas
     @app.route('/tareas', methods=['GET'])
     def listar_tareas():
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         tareas = Tarea.query.all()
         return render_template('tareas/listar.html', tareas=tareas)
 
     # Ruta para crear una nueva tarea
     @app.route('/tareas/crear', methods=['GET', 'POST'])
     def crear_tarea():
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         form = TareaForm()
         if form.validate_on_submit():
             nueva_tarea = Tarea(
@@ -31,6 +37,9 @@ def configurar_tareas(app):
     # Ruta para editar una tarea existente
     @app.route('/tareas/editar/<int:id>', methods=['GET', 'POST'])
     def editar_tarea(id):
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         tarea = Tarea.query.get_or_404(id)
         form = TareaForm(obj=tarea)
         
@@ -49,6 +58,9 @@ def configurar_tareas(app):
     # Ruta para eliminar una tarea
     @app.route('/tareas/eliminar/<int:id>', methods=['POST'])
     def eliminar_tarea(id):
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         tarea = Tarea.query.get_or_404(id)
         db.session.delete(tarea)
         db.session.commit()

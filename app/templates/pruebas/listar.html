@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Pruebas - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Pruebas</h2>
+    <a href="{{ url_for('crear_prueba') }}" class="btn btn-primary mb-3">Crear nueva prueba</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Parcial</th>
+                <th>Alumno</th>
+                <th>Puntaje Máximo</th>
+                <th>Puntaje Obtenido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prueba in pruebas %}
+            <tr>
+                <td>{{ prueba.id }}</td>
+                <td>{{ prueba.descripcion }}</td>
+                <td>{{ prueba.parcial.numero }} - {{ prueba.parcial.clase.nombre }}</td>
+                <td>{{ prueba.alumno.nombre }} {{ prueba.alumno.apellido }}</td>
+                <td>{{ prueba.puntaje_maximo }}</td>
+                <td>{{ prueba.puntaje_obtenido }}</td>
+                <td>
+                    <a href="{{ url_for('editar_prueba', id=prueba.id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('eliminar_prueba', id=prueba.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta prueba?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
