@@ -3,6 +3,7 @@
 from flask import Flask
 from app.models import db  # Importa la instancia centralizada de la base de datos
 from config import DevelopmentConfig  # Importa la configuración adecuada
+from flask_migrate import Migrate
 
 def create_app(config_class=DevelopmentConfig):
     # Crear la aplicación Flask
@@ -13,9 +14,8 @@ def create_app(config_class=DevelopmentConfig):
 
     # Inicializa la base de datos con la aplicación Flask
     db.init_app(app)
-
-    # Crear las tablas de la base de datos si no existen
-    with app.app_context():
-        db.create_all()
+    
+    # Inicializar Flask-Migrate
+    migrate = Migrate(app, db)
 
     return app
