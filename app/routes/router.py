@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, flash, request, session
 from app.forms.login_forms import LoginForm
 from app.routes.clases_router import configurar_clases
 from app.routes.grados_router import configurar_grados
+from app.routes.tareas_router import configurar_tareas
 from app.routes.usuarios_router import configurar_usuarios 
 from app.routes.alumnos_router import configurar_alumnos
 
@@ -40,3 +41,4 @@ def configure_routes(app):    # Ruta para el home
     configurar_alumnos(app)
     configurar_clases(app)
     configurar_grados(app)
+    configurar_tareas(app)

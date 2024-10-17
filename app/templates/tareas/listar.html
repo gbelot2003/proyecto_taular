@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Tareas - Mi Aplicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Tareas</h2>
+    <a href="{{ url_for('crear_tarea') }}" class="btn btn-primary mb-3">Crear nueva tarea</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Parcial</th>
+                <th>Alumno</th>
+                <th>Puntaje Máximo</th>
+                <th>Puntaje Obtenido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+            <tr>
+                <td>{{ tarea.id }}</td>
+                <td>{{ tarea.descripcion }}</td>
+                <td>{{ tarea.parcial.numero }} - {{ tarea.parcial.clase.nombre }}</td>
+                <td>{{ tarea.alumno.nombre }} {{ tarea.alumno.apellido }}</td>
+                <td>{{ tarea.puntaje_maximo }}</td>
+                <td>{{ tarea.puntaje_obtenido }}</td>
+                <td>
+                    <a href="{{ url_for('editar_tarea', id=tarea.id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ url_for('eliminar_tarea', id=tarea.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
