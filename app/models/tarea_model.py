@@ -8,20 +8,15 @@ class Tarea(db.Model):
     __tablename__ = 'tareas'
 
     id = db.Column(db.Integer, primary_key=True)
-    descripcion = db.Column(db.String(255), nullable=False)  # Descripción de la tarea
-    puntaje_maximo = db.Column(db.Float, nullable=False)  # Puntaje máximo para la tarea
+    descripcion = db.Column(db.String(255), nullable=False)
+    puntaje_maximo = db.Column(db.Float, nullable=False)
+    puntaje_obtenido = db.Column(db.Float, nullable=True)
+
     parcial_id = db.Column(db.Integer, db.ForeignKey('parciales.id'), nullable=False)
     alumno_id = db.Column(db.Integer, db.ForeignKey('alumnos.id'), nullable=False)
     
-    # Relación con Parcial y Alumno
     parcial = db.relationship('Parcial', backref='tareas')
-    alumno = db.relationship('Alumno', backref='tareas')
-
-    # Puntaje obtenido por el alumno
-    puntaje_obtenido = db.Column(db.Float, nullable=True)
-    # Relación con Parcial
-    parcial_id = db.Column(db.Integer, db.ForeignKey('parciales.id'), nullable=False)
-    parcial = db.relationship('Parcial', backref='tareas')
+    alumno = db.relationship('Alumno', back_populates='tareas')
 
     def __repr__(self):
         return f'<Tarea {self.descripcion} para el Alumno {self.alumno.nombre}>'

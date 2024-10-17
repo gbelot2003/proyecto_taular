@@ -1,19 +1,51 @@
 # Archivo: app/routes/api_router.py
 from flask import Flask, jsonify, request
 from app.models.alumno_model import Alumno
+from app.models.tarea_model import Tarea
+from app.models.prueba_model import Prueba
+from app.models.examen_model import Examen
+from app.models.parcial_model import Parcial
 from app import db
 
 def configurar_api(app):
 
     # Función para convertir el objeto Alumno a un diccionario
     def alumno_to_dict(alumno):
+        parciales = Parcial.query.all()  # Obtener todos los parciales
+        parciales_data = []
+        
+        for parcial in parciales:
+            # Obtener tareas, pruebas y exámenes del alumno para este parcial
+            tareas = Tarea.query.filter_by(alumno_id=alumno.id, parcial_id=parcial.id).all()
+            pruebas = Prueba.query.filter_by(alumno_id=alumno.id, parcial_id=parcial.id).all()
+            examenes = Examen.query.filter_by(alumno_id=alumno.id, parcial_id=parcial.id).all()
+
+            # Sumar puntajes obtenidos y máximos para el parcial
+            total_obtenido = sum(tarea.puntaje_obtenido for tarea in tareas) + \
+                            sum(prueba.puntaje_obtenido for prueba in pruebas) + \
+                            sum(examen.puntaje_obtenido for examen in examenes)
+
+            total_maximo = sum(tarea.puntaje_maximo for tarea in tareas) + \
+                        sum(prueba.puntaje_maximo for prueba in pruebas) + \
+                        sum(examen.puntaje_maximo for examen in examenes)
+
+            parciales_data.append({
+                "parcial": parcial.numero,
+                "clase": parcial.clase.nombre,
+                "tareas": [{"descripcion": tarea.descripcion, "puntaje_maximo": tarea.puntaje_maximo, "puntaje_obtenido": tarea.puntaje_obtenido} for tarea in tareas],
+                "pruebas": [{"descripcion": prueba.descripcion, "puntaje_maximo": prueba.puntaje_maximo, "puntaje_obtenido": prueba.puntaje_obtenido} for prueba in pruebas],
+                "examenes": [{"descripcion": examen.descripcion, "puntaje_maximo": examen.puntaje_maximo, "puntaje_obtenido": examen.puntaje_obtenido} for examen in examenes],
+                "total_obtenido": total_obtenido,
+                "total_maximo": total_maximo
+            })
+
         return {
             "id": alumno.id,
             "nombre": alumno.nombre,
             "apellido": alumno.apellido,
             "email": alumno.email,
             "grado": alumno.grado.nombre if alumno.grado else None,
-            # Añadir más campos según tu modelo
+            "parciales": parciales_data  # Añadir parciales con resultados
         }
 
     @app.route('/api/alumno', methods=['GET'])
