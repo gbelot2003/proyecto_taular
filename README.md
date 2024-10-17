@@ -1,4 +1,3 @@
-
 # Proyecto Taular - MVP
 
 Este es un **MVP** (Minimum Viable Product) del proyecto **Taular**, una aplicación basada en Flask que gestiona clases, alumnos, tareas, pruebas, y exámenes. Cada clase está dividida en parciales y cada parcial contiene varias evaluaciones para los alumnos.
@@ -39,84 +38,53 @@ proyecto_taular-main/
 │
 ├── config.py                          # Configuraciones para el entorno (base de datos, etc.)
 ├── requirements.txt                   # Dependencias del proyecto
-├── run.py                             # Archivo principal para ejecutar la aplicación
-├── tests/
-│   └── test_app.py                    # Pruebas unitarias
 └── README.md                          # Este archivo
 ```
 
-## Requisitos
-
-- Python 3.12+
-- Flask
-- SQLAlchemy
-- Flask-Migrate
-
 ## Instalación
 
-1. **Clona el repositorio**:
-
+1. Clona el repositorio:
     ```bash
-    git clone <URL del repositorio>
-    cd proyecto_taular-main
+    git clone https://github.com/usuario/proyecto_taular.git
     ```
-
-2. **Crea y activa un entorno virtual**:
-
+2. Crea un entorno virtual:
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # En Windows: venv\Scripts\activate
+    python3 -m venv venv
     ```
-
-3. **Instala las dependencias**:
-
+3. Activa el entorno virtual:
+    - En Linux/Mac:
+        ```bash
+        source venv/bin/activate
+        ```
+    - En Windows:
+        ```bash
+        venv\Scripts\activate
+        ```
+4. Instala las dependencias:
     ```bash
     pip install -r requirements.txt
     ```
-
-4. **Configura la base de datos**:
-
-    Asegúrate de tener configurada correctamente tu base de datos en `config.py`.
-
-5. **Crea las tablas en la base de datos**:
-
+5. Crea la base de datos y ejecuta las migraciones:
     ```bash
     flask db upgrade
     ```
 
-6. **Seed de la base de datos**:
-
-    Para poblar la base de datos con datos de prueba:
-
+6. Ejecuta la aplicación:
     ```bash
-    python app/seeds/seed_all.py
+    flask run
     ```
 
-7. **Ejecuta la aplicación**:
+## Seeds
 
-    ```bash
-    python run.py
-    ```
-
-    La aplicación estará disponible en `http://127.0.0.1:5000/`.
-
-## Estructura de la base de datos
-
-- **Clases**: Están asociadas a un **Grado** y se dividen en 4 **Parciales**.
-- **Parciales**: Cada **Parcial** tiene varias **Tareas**, **Pruebas**, y un **Examen** para cada alumno.
-- **Alumnos**: Pertenecen a un grado específico y tienen un puntaje por cada evaluación en un parcial.
-
-## Pruebas
-
-El proyecto incluye un conjunto básico de pruebas unitarias. Para ejecutar las pruebas:
+Para poblar la base de datos con datos de prueba, ejecuta los seeds incluidos:
 
 ```bash
-pytest
+python -m app.seeds.seed_all
 ```
 
 ## Migraciones
 
-Para generar nuevas migraciones al cambiar los modelos:
+Para crear nuevas migraciones al cambiar los modelos:
 
 1. **Crear una nueva migración**:
 
@@ -132,7 +100,7 @@ Para generar nuevas migraciones al cambiar los modelos:
 
 ## Futuras mejoras
 
-- Incorporacion de chat de inteligencia artificial para evaluación y actualización del estado de estudiante.
+- Incorporación de chat de inteligencia artificial para evaluación y actualización del estado de estudiante.
 - Implementar autenticación y roles para los usuarios (admin, maestros).
 - Agregar lógica de reportes de rendimiento por alumno y clase.
 - Optimización de la interfaz para la gestión de clases y parciales.
@@ -143,4 +111,31 @@ Si tienes preguntas o deseas contribuir, por favor contacta a [gerardo.belot@gma
 
 ---
 
-Con este **README** puedes guiar a otros usuarios o desarrolladores para entender, instalar y ejecutar el proyecto.
+## Actualizaciones recientes
+
+### 1. Autenticación del API mediante tokens
+
+Se ha implementado un sistema básico de autenticación para proteger los endpoints del API mediante un token de seguridad. Este token se debe enviar como parámetro en la URL o en el encabezado de las solicitudes para acceder a los endpoints protegidos.
+
+#### Uso de la API con token
+
+Para acceder a los endpoints del API, como obtener información de alumnos, debes incluir el token en la solicitud:
+
+- Ejemplo de solicitud con token en la URL:
+```bash
+curl "http://localhost:5000/api/alumno?nombre=Juan&token=mi-token-secreto-dev"
+```
+
+### 2. Configuración de la aplicación
+
+El archivo `config.py` ahora incluye claves de configuración separadas para los entornos de desarrollo, pruebas y producción. Asegúrate de definir las variables de entorno adecuadas para cada entorno.
+
+- `SECRET_API_TOKEN`: Token de seguridad para acceder al API.
+- `SQLALCHEMY_DATABASE_URI`: URI de la base de datos, configurable por entorno.
+
+### 3. Nuevas características del API
+
+El API ahora permite:
+- **Consultar alumnos** por nombre o correo electrónico, incluyendo sus tareas, pruebas, y exámenes organizados por parciales.
+- Protección de las rutas del API mediante un token de seguridad.
+
