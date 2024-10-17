@@ -10,12 +10,18 @@ def configurar_examen(app):
     # Ruta para listar exámenes
     @app.route('/examenes', methods=['GET'])
     def listar_examenes():
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         examenes = Examen.query.all()
         return render_template('examenes/listar.html', examenes=examenes)
 
     # Ruta para crear un nuevo examen
     @app.route('/examenes/crear', methods=['GET', 'POST'])
     def crear_examen():
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         form = ExamenForm()
         if form.validate_on_submit():
             nuevo_examen = Examen(
@@ -34,6 +40,9 @@ def configurar_examen(app):
     # Ruta para editar un examen existente
     @app.route('/examenes/editar/<int:id>', methods=['GET', 'POST'])
     def editar_examen(id):
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         examen = Examen.query.get_or_404(id)
         form = ExamenForm(obj=examen)
         
@@ -52,6 +61,9 @@ def configurar_examen(app):
     # Ruta para eliminar un examen
     @app.route('/examenes/eliminar/<int:id>', methods=['POST'])
     def eliminar_examen(id):
+        if 'user' not in session:
+            flash('Debes iniciar sesión para acceder al dashboard.', 'warning')
+            return redirect(url_for('login'))
         examen = Examen.query.get_or_404(id)
         db.session.delete(examen)
         db.session.commit()
