@@ -2,6 +2,7 @@ flask
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Script
+flask-socketio  
 Flask-WTF
 email_validator
 Flask-JWT-Extended
