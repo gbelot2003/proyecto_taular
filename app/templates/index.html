@@ -5,6 +5,47 @@ Consejero Virtual - Instituto Tecnológico de Taular
 {% endblock %}
 
 {% block content %}
+<style>
+    .chat-container {
+        height: 600px; /* Ajusta según la altura deseada */
+        overflow-y: scroll; /* Habilitar el scroll vertical */
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .message-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        min-width: 250px;
+        background-color: #f1f0f0;
+    }
+
+    .user-message {
+        background-color: #dcf8c6;
+        align-self: flex-end;
+    }
+
+    .other-message {
+        background-color: #ece5dd;
+        align-self: flex-start;
+    }
+
+    .message-time {
+        display: block;
+        font-size: 0.8em;
+        color: #999;
+        text-align: right;
+    }
+</style>
+
 <div class="container-fluid py-3 d-flex justify-content-center align-items-center"
     style="height: calc(100vh - 56px); background-color: #f0f2f5;">
     <div class="row justify-content-center w-100">

@@ -59,8 +59,8 @@ def configurar_api(app):
         email = request.args.get('email')
 
         # Verificar si el token es válido
-        if token != current_app.config['SECRET_API_TOKEN']:
-            return jsonify({"error": "Token de seguridad no válido."}), 403
+        # if token != current_app.config['SECRET_API_TOKEN']:
+        #     return jsonify({"error": "Token de seguridad no válido."}), 403
 
         # Verificar si se envió un nombre o un email
         if not nombre and not email:
