@@ -13,7 +13,7 @@ def obtener_resultado_estudiante(nombre_o_email):
 
         # Realizar la solicitud al API de alumnos
         params = {
-            'nombre': nombre_o_email,
+            'email': nombre_o_email,
             'token': token
         }
 
