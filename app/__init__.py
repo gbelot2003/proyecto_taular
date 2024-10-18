@@ -5,6 +5,7 @@ from app.models import db  # Importa la instancia centralizada de la base de dat
 from config import DevelopmentConfig  # Importa la configuración adecuada
 from flask_migrate import Migrate
 from app.routes.router import configure_routes
+from flask_socketio import SocketIO
 
 def create_app(config_class=DevelopmentConfig):
     # Crear la aplicación Flask
@@ -15,11 +16,13 @@ def create_app(config_class=DevelopmentConfig):
 
     # Inicializa la base de datos con la aplicación Flask
     db.init_app(app)
-    
+
     # Inicializar Flask-Migrate
     migrate = Migrate(app, db)
 
+    socketio = SocketIO(app)
+
     # Configura las rutas
-    configure_routes(app)
+    configure_routes(app, socketio)
 
     return app
