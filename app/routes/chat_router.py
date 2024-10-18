@@ -11,11 +11,17 @@ def configurar_chat(app, socketio):
 
     # Evento para manejar mensajes enviados desde el cliente
     @socketio.on('send_message')
-    def handle_send_message(data):
-        message = data['message']
-        from_number = data['from_number']
+    def handle_message(data):
+        prompt = data.get('message')
 
-        service = OpenAIService().handle_request(message)
+        if not prompt:
+            emit('receive_message', {"error": "Debes proporcionar un mensaje"})
+            return
 
-        response_message = f"Consejero: {service['response']}"
-        emit('receive_message', {'message': response_message}, broadcast=True)
+        # Manejar la solicitud con OpenAIService
+        gpt_response = OpenAIService().handle_request(prompt)
+
+        if gpt_response.get("status") == "error":
+            emit('receive_message', gpt_response)
+        else:
+            emit('receive_message', gpt_response)
