@@ -11,7 +11,7 @@ Este es un **MVP** (Minimum Viable Product) del proyecto **Taular**, una aplicac
 
 ## Estructura del proyecto
 
-```
+```bash
 proyecto_taular-main/
 │
 ├── app/
@@ -44,32 +44,44 @@ proyecto_taular-main/
 ## Instalación
 
 1. Clona el repositorio:
+
     ```bash
     git clone https://github.com/usuario/proyecto_taular.git
     ```
+
 2. Crea un entorno virtual:
+
     ```bash
     python3 -m venv venv
     ```
+
 3. Activa el entorno virtual:
     - En Linux/Mac:
+
         ```bash
         source venv/bin/activate
         ```
+
     - En Windows:
+
         ```bash
         venv\Scripts\activate
         ```
+
 4. Instala las dependencias:
+
     ```bash
     pip install -r requirements.txt
     ```
+
 5. Crea la base de datos y ejecuta las migraciones:
+
     ```bash
     flask db upgrade
     ```
 
 6. Ejecuta la aplicación:
+
     ```bash
     flask run
     ```
@@ -122,6 +134,7 @@ Se ha implementado un sistema básico de autenticación para proteger los endpoi
 Para acceder a los endpoints del API, como obtener información de alumnos, debes incluir el token en la solicitud:
 
 - Ejemplo de solicitud con token en la URL:
+
 ```bash
 curl "http://localhost:5000/api/alumno?nombre=Juan&token=mi-token-secreto-dev"
 ```
@@ -136,6 +149,6 @@ El archivo `config.py` ahora incluye claves de configuración separadas para los
 ### 3. Nuevas características del API
 
 El API ahora permite:
+
 - **Consultar alumnos** por nombre o correo electrónico, incluyendo sus tareas, pruebas, y exámenes organizados por parciales.
 - Protección de las rutas del API mediante un token de seguridad.
-
