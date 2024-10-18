@@ -14,11 +14,17 @@ class OpenAIService:
     def __init__(self):
         pass
 
-    def handle_request(self, prompt, from_number):
+    def handle_request(self, prompt):
         # Definir el prompt del usuario
         try:
             # Imprimir el prompt del usuario
             print(f"Usuario: {prompt}")
+
+            # Definir el prompt del usuario
+            messages = []
+            
+            # Agregar el mensaje actual del usuario
+            messages.append({"role": "user", "content": prompt})
             
             # Enviar los mensajes a la API de OpenAI
             response = client.chat.completions.create(

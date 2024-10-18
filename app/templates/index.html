@@ -77,9 +77,11 @@ Consejero Virtual - Instituto Tecnológico de Taular
     // Función para enviar el mensaje a través de WebSocket
     function sendMessage() {
         const message = document.getElementById('message').value;
-        if (message) {
-            // Enviar el mensaje al servidor
-            socket.emit('send_message', { message: message });
+        const from_number = document.getElementById('from_number').value;  // Capturar el número del campo
+
+        if (message && from_number) {
+            // Enviar el mensaje al servidor junto con el número
+            socket.emit('send_message', { message: message, from_number: from_number });
             addMessageToChat(message, 'user');  // Añadir el mensaje del usuario al chat
             document.getElementById('message').value = '';  // Limpiar el campo de entrada
         }
@@ -109,5 +111,6 @@ Consejero Virtual - Instituto Tecnológico de Taular
         logDiv.scrollTop = logDiv.scrollHeight;  // Desplazamiento automático hacia abajo
     }
 </script>
+
 
 {% endblock %}
