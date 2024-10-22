@@ -21,7 +21,7 @@ def configurar_chat(app: Flask):
             "from_number": from_number,
             "response": f"Consejero: {service['response']}"
         }
-        
-        response_message.headers.add('Access-Control-Allow-Origin', '*')
+        print(response_message)
+        #response_message.headers.add('Access-Control-Allow-Origin', '*')
 
         return jsonify(response_message)

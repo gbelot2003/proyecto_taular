@@ -23,23 +23,15 @@ def configurar_api(app):
             pruebas = Prueba.query.filter_by(alumno_id=alumno.id, parcial_id=parcial.id).all()
             examenes = Examen.query.filter_by(alumno_id=alumno.id, parcial_id=parcial.id).all()
 
-            # Sumar puntajes obtenidos y máximos para el parcial
+            # Sumar puntajes obtenidos para el parcial
             total_obtenido = sum(tarea.puntaje_obtenido for tarea in tareas) + \
                             sum(prueba.puntaje_obtenido for prueba in pruebas) + \
                             sum(examen.puntaje_obtenido for examen in examenes)
 
-            total_maximo = sum(tarea.puntaje_maximo for tarea in tareas) + \
-                        sum(prueba.puntaje_maximo for prueba in pruebas) + \
-                        sum(examen.puntaje_maximo for examen in examenes)
-
             parciales_data.append({
                 "parcial": parcial.numero,
                 "clase": parcial.clase.nombre,
-                "tareas": [{"descripcion": tarea.descripcion, "puntaje_maximo": tarea.puntaje_maximo, "puntaje_obtenido": tarea.puntaje_obtenido} for tarea in tareas],
-                "pruebas": [{"descripcion": prueba.descripcion, "puntaje_maximo": prueba.puntaje_maximo, "puntaje_obtenido": prueba.puntaje_obtenido} for prueba in pruebas],
-                "examenes": [{"descripcion": examen.descripcion, "puntaje_maximo": examen.puntaje_maximo, "puntaje_obtenido": examen.puntaje_obtenido} for examen in examenes],
-                "total_obtenido": total_obtenido,
-                "total_maximo": total_maximo
+                "total_obtenido": total_obtenido
             })
 
         return {

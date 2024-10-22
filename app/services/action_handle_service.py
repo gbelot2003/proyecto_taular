@@ -19,6 +19,7 @@ class ActionHandleService:
 
                 # Obtener la información del estudiante desde la acción
                 alumno_info = obtener_resultado_estudiante(name_or_email)
+                print(alumno_info)
 
                 # Verificar si se encontró al estudiante
                 if alumno_info:
