@@ -2,7 +2,7 @@ services:
   web:
     build: .
     ports:
-      - "5000:5000"
+      - "80:5000"
     volumes:
       - .:/app  # Montar el directorio actual en /app dentro del contenedor
     environment:
@@ -14,25 +14,25 @@ services:
       - MAIL_USE_SSL=False
       - MAIL_DEFAULT_SENDER=noreply@yourapp.com
     depends_on:
-      - redis
-      - mailpit  # Dependencia de Mailpit
+      #- redis
+      #- mailpit  # Dependencia de Mailpit
     command: flask run --host=0.0.0.0 --port=5000 --reload  # Usar el servidor de desarrollo de Flask para autorecarga
     #command: ["gunicorn", "-c", "gunicorn_config.py", "run:app"]  # Cuando estés listo para producción
 
-  redis:
-    image: "redis:latest"
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    command: ["redis-server", "--appendonly", "yes"]
+  # redis:
+  #   image: "redis:latest"
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   command: ["redis-server", "--appendonly", "yes"]
 
-  mailpit:
-    image: "axllent/mailpit"
-    ports:
-      - "1025:1025"  # Puerto SMTP para recibir correos
-      - "8025:8025"  # Interfaz web para visualizar correos
-    restart: always
+  # mailpit:
+  #   image: "axllent/mailpit"
+  #   ports:
+  #     - "1025:1025"  # Puerto SMTP para recibir correos
+  #     - "8025:8025"  # Interfaz web para visualizar correos
+  #   restart: always
 
 volumes:
   redis_data:
