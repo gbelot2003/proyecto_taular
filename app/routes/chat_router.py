@@ -8,7 +8,7 @@ def configurar_chat(app, socketio):
     @app.route('/chat')
     def chat():
         return render_template('index.html')
-
+    
     # Evento para manejar mensajes enviados desde el cliente
     @socketio.on('send_message')
     def handle_message(data):

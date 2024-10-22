@@ -16,4 +16,6 @@ EXPOSE 5000
 
 # Comando para iniciar la app con Gunicorn
 #CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
-CMD ["gunicorn", "-c", "gunicorn_config.py", "run:app"]
+#CMD ["gunicorn", "-c", "gunicorn_config.py", "run:app"]
+
+CMD ["python", "run.py"]

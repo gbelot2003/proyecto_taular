@@ -20,7 +20,7 @@ def create_app(config_class=DevelopmentConfig):
     # Inicializar Flask-Migrate
     migrate = Migrate(app, db)
 
-    socketio = SocketIO(app)
+    socketio = SocketIO(app,  cors_allowed_origins="*")
 
     # Configura las rutas
     configure_routes(app, socketio)
