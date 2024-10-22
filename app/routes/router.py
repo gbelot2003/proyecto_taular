@@ -13,7 +13,8 @@ from app.routes.chat_router import configurar_chat
 def configure_routes(app):    # Ruta para el home
     @app.route("/")
     def index():
-        return render_template("index.html")
+        form = LoginForm()
+        return render_template("login.html", form=form)
 
     # Ruta para la página de login
     @app.route('/login', methods=['GET', 'POST'])
@@ -27,7 +28,7 @@ def configure_routes(app):    # Ruta para el home
             if email == 'admin@example.com' and password == 'password':
                 session['user'] = email  # Guardar el usuario en la sesión
                 flash('Has iniciado sesión correctamente.', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('chat'))
             else:
                 flash('Correo o contraseña incorrectos.', 'danger')
         
