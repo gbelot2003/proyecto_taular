@@ -10,7 +10,7 @@ from app.routes.alumnos_router import configurar_alumnos
 from app.routes.api_router import configurar_api
 from app.routes.chat_router import configurar_chat
 
-def configure_routes(app, socketio):    # Ruta para el home
+def configure_routes(app):    # Ruta para el home
     @app.route("/")
     def index():
         return render_template("index.html")
@@ -58,7 +58,7 @@ def configure_routes(app, socketio):    # Ruta para el home
     configurar_prueba(app)
     configurar_examen(app)
     configurar_api(app)
-    configurar_chat(app, socketio)
+    configurar_chat(app)
 
 
     

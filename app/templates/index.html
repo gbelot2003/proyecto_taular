@@ -42,7 +42,7 @@ Consejero Virtual - Instituto Tecnológico de Taular
                     <div class="col-12 mb-3">
                         <label for="url">URL del API:</label>
                         <input type="text" id="url" name="url" class="form-control"
-                            value="http://127.0.0.1:5000/api/message" placeholder="http://example.com/endpoint"
+                            value="http://127.0.0.1:5000/send_message" placeholder="http://example.com/endpoint"
                             required>
                     </div>
                     <div class="col-12 mb-3">
@@ -55,11 +55,8 @@ Consejero Virtual - Instituto Tecnológico de Taular
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script>
-    // Conectar al servidor de WebSockets
-    var socket = io();
-
     // Enviar mensaje al hacer clic en el botón de enviar
     document.getElementById('send-btn').addEventListener('click', function (event) {
         event.preventDefault();
@@ -74,24 +71,27 @@ Consejero Virtual - Instituto Tecnológico de Taular
         }
     });
 
-    // Función para enviar el mensaje a través de WebSocket
+    // Función para enviar el mensaje a través de Axios
     function sendMessage() {
         const message = document.getElementById('message').value;
         const from_number = document.getElementById('from_number').value;  // Capturar el número del campo
+        const url = document.getElementById('url').value;  // Capturar la URL del campo
 
-        if (message && from_number) {
+        if (message && from_number && url) {
             // Enviar el mensaje al servidor junto con el número
-            socket.emit('send_message', { message: message, from_number: from_number });
-            addMessageToChat(message, 'user');  // Añadir el mensaje del usuario al chat
+            axios.post(url, { message: message, from_number: from_number })
+                .then(response => {
+                    const responseMessage = response.data.response;
+                    addMessageToChat(message, 'user');  // Añadir el mensaje del usuario al chat
+                    addMessageToChat(responseMessage, 'other');  // Añadir la respuesta del servidor al chat
+                })
+                .catch(error => {
+                    console.error('Error al enviar el mensaje:', error);
+                });
+
             document.getElementById('message').value = '';  // Limpiar el campo de entrada
         }
     }
-
-    // Función para manejar los mensajes recibidos del servidor
-    socket.on('receive_message', function (data) {
-        const responseMessage = data.message;
-        addMessageToChat(responseMessage, 'other');  // Añadir la respuesta del servidor al chat
-    });
 
     // Función para añadir un mensaje al chat con clases de usuario/servidor
     function addMessageToChat(message, sender) {
@@ -111,6 +111,4 @@ Consejero Virtual - Instituto Tecnológico de Taular
         logDiv.scrollTop = logDiv.scrollHeight;  // Desplazamiento automático hacia abajo
     }
 </script>
-
-
 {% endblock %}

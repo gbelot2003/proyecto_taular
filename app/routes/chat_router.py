@@ -1,21 +1,25 @@
-from flask import render_template
-from flask_socketio import emit
-
+from flask import Flask, jsonify, render_template, request
 from app.services.openai_service import OpenAIService
 
-# Ruta para la página del chat
-def configurar_chat(app, socketio):
+def configurar_chat(app: Flask):
     @app.route('/chat')
     def chat():
         return render_template('index.html')
 
-    # Evento para manejar mensajes enviados desde el cliente
-    @socketio.on('send_message')
-    def handle_send_message(data):
-        message = data['message']
-        from_number = data['from_number']
+    @app.route('/send_message', methods=['POST'])
+    def handle_send_message():
+        data = request.json  # Obtener los datos enviados desde el cliente
+        message = data.get('message')
+        from_number = data.get('from_number')
+
+        if not message:
+            return jsonify({"error": "Message is required"}), 400
 
         service = OpenAIService().handle_request(message)
 
-        response_message = f"Consejero: {service['response']}"
-        emit('receive_message', {'message': response_message}, broadcast=True)
+        response_message = {
+            "from_number": from_number,
+            "response": f"Consejero: {service['response']}"
+        }
+
+        return jsonify(response_message)
