@@ -8,3 +8,4 @@ email_validator
 Flask-JWT-Extended
 openai 
 python-dotenv
+requests
