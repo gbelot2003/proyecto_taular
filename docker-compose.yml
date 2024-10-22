@@ -13,7 +13,7 @@ services:
       - MAIL_USE_TLS=False
       - MAIL_USE_SSL=False
       - MAIL_DEFAULT_SENDER=noreply@yourapp.com
-    depends_on:
+    #depends_on:
       #- redis
       #- mailpit  # Dependencia de Mailpit
     command: flask run --host=0.0.0.0 --port=5000 --reload  # Usar el servidor de desarrollo de Flask para autorecarga
