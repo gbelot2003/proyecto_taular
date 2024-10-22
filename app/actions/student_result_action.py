@@ -44,5 +44,5 @@ def crear_prompt_alumno(alumno_info):
         prompt += f"\nParcial {parcial['parcial']} de {parcial['clase']}:\n"
         prompt += f"Total obtenido: {total_obtenido}/{total_maximo} ({rendimiento:.2f}%)\n"
     
-    prompt += "\nDar el resultado por parcial del alumno y genera algunos consejos para mejorar el rendimiento de este alumno basado en las notas obtenidas."
+    prompt += "\nDar el resultado por parcial del alumno y genera 2 consejos para mejorar el rendimiento de este alumno basado en las notas obtenidas."
     return prompt
