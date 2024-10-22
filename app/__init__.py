@@ -5,11 +5,14 @@ from app.models import db  # Importa la instancia centralizada de la base de dat
 from config import DevelopmentConfig  # Importa la configuración adecuada
 from flask_migrate import Migrate
 from app.routes.router import configure_routes
+from flask_cors import CORS
 
 def create_app(config_class=DevelopmentConfig):
     # Crear la aplicación Flask
     app = Flask(__name__)
 
+    CORS(app)
+    
     # Cargar la configuración desde config.py
     app.config.from_object(config_class)
 
